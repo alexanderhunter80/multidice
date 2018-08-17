@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.epoch.multidice.models.User;
 import com.epoch.multidice.services.UserService;
@@ -29,6 +30,13 @@ public class GeneralController {
 	@GetMapping("/")
 	public String home(Principal principal, Model model) {
 		return "home.jsp";
+	}
+	
+	@PostMapping("/roll")
+	public String roll(Principal principal, Model model) {
+		// roll dice!
+		// shove into database
+		return "result.jsp";
 	}
 
 }

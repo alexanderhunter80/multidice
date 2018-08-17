@@ -1,0 +1,19 @@
+:root {
+	--bg:  #303030;
+	--color-text: #CCCCCC;
+	--color-link: #7ABBBB;
+	--color-hover: #CCCCFF;
+}
+
+body {
+	background: var(--bg);
+	color:  var(--color-text);
+}
+
+a, a:link {
+	color: var(--color-link);
+}
+
+a:hover {
+	color: var(--color-hover);
+}
