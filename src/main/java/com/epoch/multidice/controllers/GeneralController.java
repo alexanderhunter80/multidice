@@ -6,13 +6,16 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.epoch.multidice.models.RollEvent;
 import com.epoch.multidice.models.User;
+import com.epoch.multidice.services.DiceService;
 import com.epoch.multidice.services.UserService;
 
 @Controller
@@ -20,6 +23,8 @@ public class GeneralController {
 	
 	@Autowired
 	private UserService users;
+	@Autowired
+	private DiceService dice;
 	
 	public GeneralController() {};
 	
@@ -41,8 +46,16 @@ public class GeneralController {
 		if(result.hasErrors()) {
 			return "home.jsp";
 		}
+		User you = users.findByUsername(principal.getName());
 		// roll dice!
-		// shove into database
+		RollEvent thisRoll = dice.createRollEvent(rollEvent);
+		return "redirect:/result/0";  // 0 is placeholder, fix this once database is active
+	}
+	
+	@GetMapping("/result/{id}")
+	public String showOneResult(Principal principal, Model model, @PathVariable("id") Long id) {
+		// grab info from one result
+		// add info to model for display
 		return "result.jsp";
 	}
 
