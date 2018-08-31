@@ -2,6 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,12 +19,65 @@
 <body>
 
 	<div class="container">
+
+		<div class="row page-header">
+			<div class="col-md-3 col-sm-1"></div>
+			<div class="col-md-6 col-sm-10">
+				<h1 class="text-center" id="page-title">transparent chateau</h1>
+			</div>
+			<div class="col-md-3 col-sm-1"></div>
+		</div>
+		
+		<!-- copy login/logout from home.jsp -->
+		
+
+
+
+		<!-- roller -->
+
+		<form:form action="/roll" method="POST" modelAttribute="rollEvent">
+			<div class="row">
+				<div class="col-sm-12 text-center">
+					<span>
+						<form:label path="inputstring">Dice:</form:label>
+					</span>
+					<form:input path="inputstring" class="roll-input" />
+					<button class="btn btn-secondary" type="submit">Roll</button>
+				</div>
+				<div class="row">
+					<p class="text-danger">
+						<form:errors path="inputstring" />
+					</p>
+				</div>
+			</div>
+		</form:form>
+		
 		<div class="row">
-			<div class="col-sm-12 text-center">
-				<p>This is where results will be.</p>
-				<p>Eventually.</p>
+			<div class="col-sm-12">
+				<div class="card result-card">
+					<div class="card-body">
+						<h4 class="card-title">Results</h4>
+						<h6 class="card-subtitle font-italic text-subtle">Rolled on $DATE by $USER</h6>
+						<br />
+						<p class="card-text">
+							Results go here.
+						</p>
+					</div>
+				</div>
 			</div>
 		</div>
+
+		<!-- bottom bar -->
+
+		<footer class="page-footer">
+			<div class="row">
+				<div class="col-sm-12 text-center">
+					<p>This site brought to you by <a href="http://www.alexhunter.io">Alex Hunter.</a></p>
+				</div>
+			</div>
+		</footer>
+
+
 	</div>
 
 </body>

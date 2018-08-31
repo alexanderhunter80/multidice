@@ -37,23 +37,87 @@ public class GeneralController {
 	 */
 	
 	@GetMapping("/")
-	public String home(Principal principal, @ModelAttribute("rollEvent") RollEvent rollEvent) {
+	public String home(Principal principal, Model model, @ModelAttribute("rollEvent") RollEvent rollEvent) {
+		
+		User you;
+		if(principal!=null) {
+			you = users.findByUsername(principal.getName());
+		} else {
+			you = null;
+		}
+		model.addAttribute("user", you);
+		
 		return "home.jsp";
 	}
 	
+	@GetMapping("/login")
+	public String showLoginPage(Principal principal, Model model) {
+		
+		if(principal != null) {
+			return "redirect:/";
+		}
+		
+		return "login.jsp";
+	}
+	
+	@GetMapping("/register")
+	public String showRegistrationPage(Principal principal, Model model, @ModelAttribute("user") User user) {
+		
+		if(principal != null) {
+			return "redirect:/";
+		}
+		
+		return "register.jsp";
+	}
+	
+	@PostMapping("/register") 
+	public String doRegistration(Principal principal, Model model, @Valid @ModelAttribute("user") User user, BindingResult result) {
+		
+		if(principal != null) {
+			return "redirect:/";
+		}
+		
+		if(result.hasErrors()) {
+			return "register.jsp";
+		}
+		
+		// do actual registration with database and login user
+		
+		return "redirect:/";
+	}
+	
 	@PostMapping("/roll")
-	public String roll(Principal principal, @Valid @ModelAttribute("rollEvent") RollEvent rollEvent, BindingResult result) {
+	public String roll(Principal principal, Model model, @Valid @ModelAttribute("rollEvent") RollEvent rollEvent, BindingResult result) {
+		
 		if(result.hasErrors()) {
 			return "home.jsp";
 		}
-		User you = users.findByUsername(principal.getName());
+		
+		User you;
+		if(principal!=null) {
+			you = users.findByUsername(principal.getName());
+		} else {
+			you = null;
+		}
+		model.addAttribute("user", you);
+
+		System.out.println(rollEvent.getInputstring());
 		// roll dice!
-		RollEvent thisRoll = dice.createRollEvent(rollEvent);
+		// RollEvent thisRoll = dice.createRollEvent(rollEvent);
 		return "redirect:/result/0";  // 0 is placeholder, fix this once database is active
 	}
 	
 	@GetMapping("/result/{id}")
-	public String showOneResult(Principal principal, Model model, @PathVariable("id") Long id) {
+	public String showOneResult(Principal principal, Model model, @ModelAttribute("rollEvent") RollEvent rollEvent, @PathVariable("id") Long id) {
+		
+		User you;
+		if(principal!=null) {
+			you = users.findByUsername(principal.getName());
+		} else {
+			you = null;
+		}
+		model.addAttribute("user", you);
+		
 		// grab info from one result
 		// add info to model for display
 		return "result.jsp";
