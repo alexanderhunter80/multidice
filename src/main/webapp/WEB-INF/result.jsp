@@ -58,7 +58,7 @@
 						 by 
 						<c:choose>
 							<c:when test="${ showEvent.user != null }">
-								<c:out value="${ showEvent.user.username }" />
+								<c:out value="${ showEvent.user.username }" />#<c:out value="${ showEvent.user.id }" />
 							</c:when>
 							<c:otherwise>
 								Anonymous
