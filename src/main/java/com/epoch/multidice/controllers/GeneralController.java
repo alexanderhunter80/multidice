@@ -101,10 +101,10 @@ public class GeneralController {
 		}
 		model.addAttribute("user", you);
 
-		System.out.println(rollEvent.getInputstring());
+		System.out.println(rollEvent.getInputString());
 		// roll dice!
-		// RollEvent thisRoll = dice.createRollEvent(rollEvent);
-		return "redirect:/result/0";  // 0 is placeholder, fix this once database is active
+		RollEvent thisRoll = dice.createRollEvent(rollEvent);
+		return "redirect:/result/"+thisRoll.getId().toString();  // 0 is placeholder, fix this once database is active
 	}
 	
 	@GetMapping("/result/{id}")
@@ -120,6 +120,8 @@ public class GeneralController {
 		
 		// grab info from one result
 		// add info to model for display
+		model.addAttribute("showEvent", dice.getEventById(id));
+		
 		return "result.jsp";
 	}
 

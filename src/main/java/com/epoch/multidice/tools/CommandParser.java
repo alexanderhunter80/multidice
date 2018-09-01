@@ -2,6 +2,8 @@ package com.epoch.multidice.tools;
 
 import java.util.ArrayList;
 
+import com.epoch.multidice.models.Handful;
+
 public class CommandParser {
 	
 	// constructors

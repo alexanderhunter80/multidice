@@ -1,18 +1,19 @@
 package com.epoch.multidice.models;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
-
-import com.epoch.multidice.tools.Handful;
 
 @Entity
 @Table(name="rollevents")
@@ -21,18 +22,20 @@ public class RollEvent {
     @Id
     @GeneratedValue
     private Long id;
-    private ArrayList<Handful> handfuls;
-    private Integer result;
     
-    @Transient
     @NotBlank
-    private String inputstring;
+    private String inputString;
+    
+    private ArrayList<String> rawResults;
+    private ArrayList<String> finalResults;
     
     // many-to-one with User
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="user_id")
 	private User user;
     
+	@Column(updatable=false)
+	private Date createdAt;
 	
 	// constructors
 	
@@ -44,50 +47,59 @@ public class RollEvent {
 		return id;
 	}
 
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-
-	public ArrayList<Handful> getHandfuls() {
-		return handfuls;
-	}
-
-
-	public void setHandfuls(ArrayList<Handful> handfuls) {
-		this.handfuls = handfuls;
-	}
-
-
-	public Integer getResult() {
-		return result;
-	}
-
-
-	public void setResult(Integer result) {
-		this.result = result;
-	}
-
-
-	public String getInputstring() {
-		return inputstring;
-	}
-
-
-	public void setInputstring(String inputstring) {
-		this.inputstring = inputstring;
-	}
-
 
 	public User getUser() {
 		return user;
 	}
 
-
 	public void setUser(User user) {
 		this.user = user;
 	}
-   
+
+	public String getInputString() {
+		return inputString;
+	}
+
+	public void setInputString(String inputString) {
+		this.inputString = inputString;
+	}
+
+	public ArrayList<String> getRawResults() {
+		return rawResults;
+	}
+
+	public void setRawResults(ArrayList<String> rawResults) {
+		this.rawResults = rawResults;
+	}
+
+	public ArrayList<String> getFinalResults() {
+		return finalResults;
+	}
+
+	public void setFinalResults(ArrayList<String> finalResults) {
+		this.finalResults = finalResults;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+	
+	@PrePersist
+    protected void onCreate(){
+        this.createdAt = new Date();
+    }
+	
+	// other methods
+	
+	public void report() {
+		System.out.println("RollEvent "+id+" reports:");
+		System.out.println("User: "+user);
+		System.out.println("Datetime: "+createdAt.toString());
+		System.out.println("Raw results: "+rawResults.toString());
+		System.out.println("Final results: "+finalResults.toString());
+	}
 
 }

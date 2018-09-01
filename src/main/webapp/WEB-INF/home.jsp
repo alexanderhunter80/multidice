@@ -53,13 +53,13 @@
 		<form:form action="/roll" method="POST" modelAttribute="rollEvent">
 			<div class="row">
 				<div class="col-sm-12 text-center">
-					<form:input path="inputstring" class="roll-input"
+					<form:input path="inputString" class="roll-input"
 						placeholder="Example: 1d20 + 5" />
 					<button class="btn btn-secondary" type="submit">Roll</button>
 				</div>
 				<div class="row">
 					<p class="text-danger">
-						<form:errors path="inputstring" />
+						<form:errors path="inputString" />
 					</p>
 				</div>
 			</div>

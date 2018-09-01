@@ -38,15 +38,12 @@
 		<form:form action="/roll" method="POST" modelAttribute="rollEvent">
 			<div class="row">
 				<div class="col-sm-12 text-center">
-					<span>
-						<form:label path="inputstring">Dice:</form:label>
-					</span>
-					<form:input path="inputstring" class="roll-input" />
+					<form:input path="inputString" class="roll-input" />
 					<button class="btn btn-secondary" type="submit">Roll</button>
 				</div>
 				<div class="row">
 					<p class="text-danger">
-						<form:errors path="inputstring" />
+						<form:errors path="inputString" />
 					</p>
 				</div>
 			</div>
@@ -57,10 +54,20 @@
 				<div class="card result-card">
 					<div class="card-body">
 						<h4 class="card-title">Results</h4>
-						<h6 class="card-subtitle font-italic text-subtle">Rolled on $DATE by $USER</h6>
+						<h6 class="card-subtitle font-italic text-subtle">Rolled on <c:out value="${ showEvent.createdAt }" />
+						 by 
+						<c:choose>
+							<c:when test="${ showEvent.user != null }">
+								<c:out value="${ showEvent.user.username }" />
+							</c:when>
+							<c:otherwise>
+								Anonymous
+							</c:otherwise>
+						</c:choose></h6>
 						<br />
 						<p class="card-text">
-							Results go here.
+							Raw results: <c:out value="${ showEvent.rawResults }" /><br />
+							Final results: <c:out value="${ showEvent.finalResults }" />
 						</p>
 					</div>
 				</div>
