@@ -17,6 +17,9 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="users")	
@@ -33,13 +36,16 @@ public class User {
 	private Date createdAt;
 	private Date updatedAt;
 	
-	// validate
+	@Size(min=1, max=100)
+	@NotBlank(message="Display name cannot be blank")
 	private String username;
 	
-	// validate
+	@Email(message="Not a valid email address")
+	@NotBlank(message="Email cannot be blank")
 	private String email;
 	
-	// validate
+	@NotBlank(message="Password cannot be blank")
+	@Size(min=8, max=255, message="Password must be between 8 and 255 characters.  You have plenty of space, use a real passphrase - see XKCD #936")
 	private String password;
 	@Transient
 	private String passConfirm;

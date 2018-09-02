@@ -2,6 +2,7 @@
 	--bg:  #303030;
 	--bg-element: #505050;
 	--color-text: #CCCCCC;
+	--color-title: #777777;
 	--color-link: #7ABBBB;
 	--color-hover: #CCCCFF;
 }
@@ -16,6 +17,7 @@ a, a:link {
 }
 
 a:hover {
+	text-decoration: none;
 	color: var(--color-hover);
 }
 
@@ -28,7 +30,12 @@ a:hover {
 }
 
 #page-title {
-	color: #777777;
+	color: var(--color-title);
+}
+
+#page-title:hover {
+	text-decoration: none;
+	color: var(--color-title);
 }
 
 .page-footer {

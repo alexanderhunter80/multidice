@@ -12,11 +12,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.epoch.multidice.models.Role;
 import com.epoch.multidice.models.RollEvent;
 import com.epoch.multidice.models.User;
 import com.epoch.multidice.services.DiceService;
 import com.epoch.multidice.services.UserService;
+import com.epoch.multidice.validators.UserValidator;
 
 @Controller
 public class GeneralController {
@@ -24,12 +27,21 @@ public class GeneralController {
 	@Autowired
 	private UserService users;
 	@Autowired
+	private UserValidator uv;
+	@Autowired
 	private DiceService dice;
+	
 	
 	public GeneralController() {};
 	
 	private User currentUser(Principal p) {
-		return users.findByUsername(p.getName());
+		User you;
+		if(p!=null) {
+			you = users.findByEmail(p.getName());
+		} else {
+			you = null;
+		}
+		return you;
 	}
 	
 	/*
@@ -39,13 +51,18 @@ public class GeneralController {
 	@GetMapping("/")
 	public String home(Principal principal, Model model, @ModelAttribute("rollEvent") RollEvent rollEvent) {
 		
-		User you;
-		if(principal!=null) {
-			you = users.findByUsername(principal.getName());
-		} else {
-			you = null;
-		}
+		User you = currentUser(principal);
 		model.addAttribute("user", you);
+		
+		System.out.print("Debugging Principal: ");
+		try {
+			System.out.println(principal.toString());
+			for(Role r : you.getRoles()) {
+				System.out.println("Has role: "+r.getName());
+			}
+		} catch (NullPointerException e) {
+			System.out.println(principal);
+		}
 		
 		return "home.jsp";
 	}
@@ -77,11 +94,13 @@ public class GeneralController {
 			return "redirect:/";
 		}
 		
+		uv.validate(user, result);
 		if(result.hasErrors()) {
 			return "register.jsp";
 		}
 		
 		// do actual registration with database and login user
+		users.saveUserWithUserRole(user);
 		
 		return "redirect:/";
 	}
@@ -93,12 +112,7 @@ public class GeneralController {
 			return "home.jsp";
 		}
 		
-		User you;
-		if(principal!=null) {
-			you = users.findByUsername(principal.getName());
-		} else {
-			you = null;
-		}
+		User you = currentUser(principal);
 		model.addAttribute("user", you);
 
 		System.out.println(rollEvent.getInputString());
@@ -110,12 +124,7 @@ public class GeneralController {
 	@GetMapping("/result/{id}")
 	public String showOneResult(Principal principal, Model model, @ModelAttribute("rollEvent") RollEvent rollEvent, @PathVariable("id") Long id) {
 		
-		User you;
-		if(principal!=null) {
-			you = users.findByUsername(principal.getName());
-		} else {
-			you = null;
-		}
+		User you = currentUser(principal);
 		model.addAttribute("user", you);
 		
 		// grab info from one result
@@ -123,6 +132,64 @@ public class GeneralController {
 		model.addAttribute("showEvent", dice.getEventById(id));
 		
 		return "result.jsp";
+	}
+	
+	@GetMapping("/admin")
+	public String adminConsole(Principal principal, Model model) {
+		User you = currentUser(principal);
+		model.addAttribute("user", you);
+		
+		return "admin.jsp";
+	}
+	
+	@GetMapping("/accessDenied")
+	public String accessDenied(Principal principal, Model model) {
+		User you = currentUser(principal);
+		model.addAttribute("user", you);
+		
+		return "accessDenied.jsp";
+	}
+	
+	@Controller
+	@RequestMapping("/debug")
+	public class DebugSubController {
+		
+		@GetMapping("/makeMeUser")
+		public String makeUser(Principal principal, Model model) {
+			User you = currentUser(principal);
+			try {
+				users.saveUserWithUserRole(you);
+				System.out.println("You are now ROLE_USER");
+			} catch (NullPointerException e) {
+				System.out.println("makeUser failed!");
+			}
+			return "redirect:/";
+		}
+		
+		@GetMapping("/makeMeAdmin")
+		public String makeAdmin(Principal principal, Model model) {
+			User you = currentUser(principal);
+			try {
+				users.saveUserWithAdminRole(you);
+				System.out.println("You are now ROLE_ADMIN");
+			} catch (NullPointerException e) {
+				System.out.println("makeAdmin failed!");
+			}
+			return "redirect:/";
+		}
+		
+		@GetMapping("/makeMeSuper")
+		public String makeSuper(Principal principal, Model model) {
+			User you = currentUser(principal);
+			try {
+				users.saveUserWithSuperRole(you);
+				System.out.println("You are now ROLE_SUPER");
+			} catch (NullPointerException e) {
+				System.out.println("makeSuper failed!");
+			}
+			return "redirect:/";
+		}
+		
 	}
 
 }

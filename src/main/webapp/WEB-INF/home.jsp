@@ -19,34 +19,9 @@
 <body>
 
 	<div class="container">
-
-		<div class="row page-header">
-			<div class="col-md-3 col-sm-1"></div>
-			<div class="col-md-6 col-sm-10">
-				<h1 class="text-center" id="page-title">transparent chateau</h1>
-			</div>
-			<div class="col-md-3 col-sm-1 text-right"></div>
-		</div>
-
-		<div class="row">
-			<div class="col-sm-12 text-center">
-				<c:choose>
-					<c:when test="${ user != null}">
-						<p>
-							hello,
-							<c:out value="${user.username}" /> - 
-							<a href="/logout">log out</a>
-						</p>
-					</c:when>
-					<c:otherwise>
-						<p>
-							<a href="">sign in</a> - <a href="">sign up</a>
-						</p>
-					</c:otherwise>
-
-				</c:choose>
-			</div>
-		</div>
+		
+		<%@include file="header.jsp" %>
+		<%@include file="subheader.jsp" %>
 
 		<!-- roller -->
 
@@ -108,16 +83,7 @@
 
 		<!-- bottom bar -->
 
-		<footer class="page-footer">
-			<div class="row">
-				<div class="col-sm-12 text-center">
-					<p>
-						This site brought to you by <a href="http://www.alexhunter.io">Alex
-							Hunter.</a>
-					</p>
-				</div>
-			</div>
-		</footer>
+		<%@include file="footer.jsp" %>
 
 
 	</div>

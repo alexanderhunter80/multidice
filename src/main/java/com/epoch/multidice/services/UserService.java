@@ -22,7 +22,7 @@ public class UserService {
     }
     
     
-    public void saveWithUserRole(User user) {
+    public void saveUserWithUserRole(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setRoles(roleRepository.findByName("ROLE_USER"));
         userRepository.save(user);
@@ -40,6 +40,14 @@ public class UserService {
         userRepository.save(user);
     }
     
+    public boolean isAdmin(User user) {
+    	return user.getRoles().contains(roleRepository.findByName("ROLE_ADMIN"));
+    }
+    
+    public boolean isSuper(User user) {
+    	return user.getRoles().contains(roleRepository.findByName("ROLE_SUPER"));
+    }
+    
     public User findByUsername(String username) {
         Optional<User> opt = userRepository.findByUsername(username);
         if(opt.isPresent()) {
@@ -51,6 +59,15 @@ public class UserService {
     
     public User findById(Long id) {
         Optional<User> opt = userRepository.findById(id);
+        if(opt.isPresent()) {
+        	return opt.get();
+        } else {
+        	return null;
+        }
+    }
+    
+    public User findByEmail(String email) {
+        Optional<User> opt = userRepository.findByEmail(email);
         if(opt.isPresent()) {
         	return opt.get();
         } else {

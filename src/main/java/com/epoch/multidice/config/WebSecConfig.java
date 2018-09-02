@@ -31,9 +31,13 @@ public class WebSecConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.
             authorizeRequests()
-                .antMatchers("/css/**", "/", "/roll", "/result/**", "/register").permitAll()
-                .anyRequest().authenticated()
+        		.antMatchers("/css/**", "/", "/roll", "/result/**", "/register", "/debug/**").permitAll()
+        		.antMatchers("/admin").access("hasRole('ADMIN')")   // not working
+            	.anyRequest().access("hasRole('SUPER')")			// also not working
                 .and()
+            .exceptionHandling()
+            	.accessDeniedPage("/accessDenied")
+            	.and()
             .formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
@@ -48,7 +52,9 @@ public class WebSecConfig extends WebSecurityConfigurerAdapter {
     
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-    	auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
+    	auth
+    		.userDetailsService(userDetailsService)
+    		.passwordEncoder(bCryptPasswordEncoder());
     }
     
 }
