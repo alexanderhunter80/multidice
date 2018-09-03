@@ -142,6 +142,13 @@ public class User {
 		this.roles = roles;
 	}
 
+	public List<RollEvent> getRollEvents() {
+		return rollEvents;
+	}
+
+	public void setRollEvents(List<RollEvent> rollEvents) {
+		this.rollEvents = rollEvents;
+	}
 
 	public Date getCreatedAt() {
 		return createdAt;

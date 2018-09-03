@@ -44,28 +44,9 @@
 				<div class="card result-card">
 					<div class="card-body">
 						<h4 class="card-title">Results</h4>
-						<h6 class="card-subtitle font-italic text-subtle">
-							Rolled on
-							<c:out value="${ showEvent.createdAt }" />
-							by
-							<c:choose>
-								<c:when test="${ showEvent.user != null }">
-									<c:out value="${ showEvent.user.username }" />#<c:out
-										value="${ showEvent.user.id }" />
-								</c:when>
-								<c:otherwise>
-								Anonymous
-							</c:otherwise>
-							</c:choose>
-						</h6>
 						<br />
 						<p class="card-text">
-							Input:
-							<c:out value="${ roll.inputString }" />
-							<br />Raw results:
-							<c:out value="${ showEvent.rawResults }" />
-							<br /> Final results:
-							<c:out value="${ showEvent.finalResults }" />
+							No roll event found with that ID.
 						</p>
 					</div>
 				</div>

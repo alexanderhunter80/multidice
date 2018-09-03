@@ -132,9 +132,22 @@ public class GeneralController {
 		
 		// grab info from one result
 		// add info to model for display
-		model.addAttribute("showEvent", dice.getEventById(id));
+		RollEvent eventToShow = dice.getEventById(id);
+		if(eventToShow==null) {
+			return "noresult.jsp";
+		}
+		model.addAttribute("showEvent", eventToShow);
 		
 		return "result.jsp";
+	}
+	
+	@GetMapping("/me")
+	public String showMyRolls(Principal principal, Model model) {
+		
+		User you = currentUser(principal);
+		model.addAttribute("user", you);
+		
+		return "userPage.jsp";
 	}
 	
 	@GetMapping("/admin")
