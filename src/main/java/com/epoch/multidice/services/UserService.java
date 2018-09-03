@@ -22,22 +22,40 @@ public class UserService {
     }
     
     
-    public void saveUserWithUserRole(User user) {
+    public User createUserWithUserRole(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setRoles(roleRepository.findByName("ROLE_USER"));
-        userRepository.save(user);
+        return userRepository.save(user);
     }
       
-    public void saveUserWithAdminRole(User user) {
+    public User createUserWithAdminRole(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setRoles(roleRepository.findByName("ROLE_ADMIN"));
-        userRepository.save(user);
+        return userRepository.save(user);
     }    
     
-    public void saveUserWithSuperRole(User user) {
+    public User createUserWithSuperRole(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setRoles(roleRepository.findByName("ROLE_SUPER"));
-        userRepository.save(user);
+        return userRepository.save(user);
+    }
+    
+    public User makeUser(User user) {
+    	user.setRoles(roleRepository.findByName("ROLE_USER"));
+        System.out.println("You are now ROLE_USER");
+    	return userRepository.save(user);
+    }
+    
+    public User makeAdmin(User user) {
+    	user.setRoles(roleRepository.findByName("ROLE_ADMIN"));
+        System.out.println("You are now ROLE_ADMIN");
+    	return userRepository.save(user);
+    }
+    
+    public User makeSuper(User user) {
+    	user.setRoles(roleRepository.findByName("ROLE_SUPER"));
+        System.out.println("You are now ROLE_SUPER");
+    	return userRepository.save(user);
     }
     
     public boolean isAdmin(User user) {

@@ -21,7 +21,7 @@ public class UserDetailsSvc implements UserDetailsService {
     public UserDetailsSvc(UserRepository userRepository){
         this.userRepository = userRepository;
     }
-    // 1
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
     	
@@ -34,11 +34,11 @@ public class UserDetailsSvc implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), getAuthorities(user));
     }
     
-    // 2
     private List<GrantedAuthority> getAuthorities(User user){
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         for(Role role : user.getRoles()) {
             GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role.getName());
+            System.out.println("UserDetailsSvc queried database for user "+user.getEmail()+" and found authority "+role.getName());
             authorities.add(grantedAuthority);
         }
         return authorities;

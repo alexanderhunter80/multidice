@@ -31,9 +31,9 @@ public class WebSecConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.
             authorizeRequests()
+    			.antMatchers("/admin").hasAnyRole("ADMIN","SUPER")
         		.antMatchers("/css/**", "/", "/roll", "/result/**", "/register", "/debug/**").permitAll()
-        		.antMatchers("/admin").access("hasRole('ADMIN')")   // not working
-            	.anyRequest().access("hasRole('SUPER')")			// also not working
+            	// .anyRequest().access("hasRole('SUPER')")		doesn't work as catch-all because statements will match one of above	
                 .and()
             .exceptionHandling()
             	.accessDeniedPage("/accessDenied")

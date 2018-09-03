@@ -100,7 +100,7 @@ public class GeneralController {
 		}
 		
 		// do actual registration with database and login user
-		users.saveUserWithUserRole(user);
+		users.createUserWithUserRole(user);
 		
 		return "redirect:/";
 	}
@@ -158,8 +158,7 @@ public class GeneralController {
 		public String makeUser(Principal principal, Model model) {
 			User you = currentUser(principal);
 			try {
-				users.saveUserWithUserRole(you);
-				System.out.println("You are now ROLE_USER");
+				users.makeUser(you);
 			} catch (NullPointerException e) {
 				System.out.println("makeUser failed!");
 			}
@@ -170,8 +169,7 @@ public class GeneralController {
 		public String makeAdmin(Principal principal, Model model) {
 			User you = currentUser(principal);
 			try {
-				users.saveUserWithAdminRole(you);
-				System.out.println("You are now ROLE_ADMIN");
+				users.makeAdmin(you);
 			} catch (NullPointerException e) {
 				System.out.println("makeAdmin failed!");
 			}
@@ -182,8 +180,7 @@ public class GeneralController {
 		public String makeSuper(Principal principal, Model model) {
 			User you = currentUser(principal);
 			try {
-				users.saveUserWithSuperRole(you);
-				System.out.println("You are now ROLE_SUPER");
+				users.makeSuper(you);
 			} catch (NullPointerException e) {
 				System.out.println("makeSuper failed!");
 			}
