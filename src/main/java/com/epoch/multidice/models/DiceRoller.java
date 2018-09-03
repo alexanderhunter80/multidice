@@ -1,7 +1,7 @@
 package com.epoch.multidice.models;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 /**
  * 
@@ -52,20 +52,33 @@ public class DiceRoller {
 	 */
 	public RollEvent roll() {
 		this.handfuls = parseToHandfuls(event.getInputString());
-		ArrayList<String> rawResults = new ArrayList<String>();
-		ArrayList<String> finalResults = new ArrayList<String>();
+		ArrayList<ArrayList<Integer>> rawResults = new ArrayList<ArrayList<Integer>>();
+		// ArrayList<String> finalResults = new ArrayList<String>();
 		// iterate through handfuls, calling each one's rollDice()
 		for(Handful h : handfuls) {
 			h.rollDice();
 		}
-		// create appropriate ArrayList<String>s for event's rawResults and finalResults
+		
+		// create appropriate ArrayList<String>s for event's rawResults
+		// at same time, sum results for finalResults - debug only, needs to be changed to match modifiers
+		int reported = 0;
 		for(Handful h : handfuls) {
-			rawResults.add(h.getRawResults().toString());
-			finalResults.add(h.getFinalResults().toString());	
+			rawResults.add(h.getRawResults());
+			reported += h.getReported();
 		}
-		// define event's rawResults and finalResults
-		event.setRawResults(rawResults);
-		event.setFinalResults(finalResults);
+		
+		// build ArrayList to define event's rawResults
+		ArrayList<String> rawToSet = new ArrayList<String>();
+		for(ArrayList<Integer> l : rawResults) {
+			rawToSet.add(l.toString());
+		}
+		event.setRawResults(rawToSet);
+		
+		// set finalResults to an ArrayList containing only the reported sum
+		// this is mostly a placeholder for later, more complicated reporting, not just sum-all-dice
+		ArrayList<String> finalToSet = new ArrayList<String>();
+		finalToSet.add(Integer.toString(reported));
+		event.setFinalResults(finalToSet);
 		return event;
 	}
 	

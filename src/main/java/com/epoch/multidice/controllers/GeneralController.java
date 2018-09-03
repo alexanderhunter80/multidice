@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.epoch.multidice.models.Role;
 import com.epoch.multidice.models.RollEvent;
@@ -88,7 +89,7 @@ public class GeneralController {
 	}
 	
 	@PostMapping("/register") 
-	public String doRegistration(Principal principal, Model model, @Valid @ModelAttribute("user") User user, BindingResult result) {
+	public String doRegistration(Principal principal, Model model, @Valid @ModelAttribute("user") User user, BindingResult result, RedirectAttributes flash) {
 		
 		if(principal != null) {
 			return "redirect:/";
@@ -101,8 +102,9 @@ public class GeneralController {
 		
 		// do actual registration with database and login user
 		users.createUserWithUserRole(user);
+		flash.addFlashAttribute("flashMessage","Thank you for registering, please login to complete the process.");
 		
-		return "redirect:/";
+		return "redirect:/login";
 	}
 	
 	@PostMapping("/roll")
@@ -117,8 +119,9 @@ public class GeneralController {
 
 		System.out.println(rollEvent.getInputString());
 		// roll dice!
+		rollEvent.setUser(you);
 		RollEvent thisRoll = dice.createRollEvent(rollEvent);
-		return "redirect:/result/"+thisRoll.getId().toString();  // 0 is placeholder, fix this once database is active
+		return "redirect:/result/"+thisRoll.getId().toString();
 	}
 	
 	@GetMapping("/result/{id}")

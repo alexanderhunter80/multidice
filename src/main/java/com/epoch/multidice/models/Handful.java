@@ -4,6 +4,7 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.stream.IntStream;
 
 /**
  * 
@@ -20,7 +21,8 @@ public class Handful {
 	private String input;
 	private ArrayList<String> commands;
 	private ArrayList<Integer> rawResults;
-	 private ArrayList<Integer> finalResults;
+	private ArrayList<Integer> finalResults;
+	private Integer reported;
 	private HashMap<String, String> mods;
 		// parse through keylist and switch-case each one
 	private SecureRandom random = new SecureRandom();
@@ -61,6 +63,10 @@ public class Handful {
 		return finalResults;
 	}
 	
+	public int getReported() {
+		return reported;
+	}
+	
 	// other methods
 	
 	
@@ -68,12 +74,29 @@ public class Handful {
 	 * Pseudo-controller that moderates the process of parsing input, rolling dice, and applying modifiers.
 	 */
 	public void rollDice(){
+		System.out.println("Handful is parsing input: "+input);
+		try {
+			
+			int k = Integer.parseInt(input.replaceAll("[\\(\\)]", ""));
+			System.out.println("Input is a scalar value, bypassing all other logic");
+			reported = k;
+			rawResults = new ArrayList<Integer>();
+			rawResults.add(k);
+			finalResults = new ArrayList<Integer>(rawResults);
+			return;
+		} catch (NumberFormatException e) {
+			System.out.println("Input is not a scalar value, continuing");
+		}
 		// may need to try-catch if input string is malformed
 		this.commands = parseToCommands(input);
 		this.rawResults = rollem(commands.remove(0));
 		parseModifiers(commands);
 		// this.finalResults = doModifiers();
 		this.finalResults = rawResults;  // debug/dev purposes only, remove once doModifiers() works
+		this.reported = 0;
+		for(Integer i : finalResults) {
+			reported += i;
+		}
 		return;
 	}
 	

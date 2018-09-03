@@ -20,9 +20,19 @@
 
 	<div class="container">
 
-		<%@include file="header.jsp" %>
+		<%@include file="header.jsp"%>
 
 		<!-- fix this shit to use email instead of username - username should be displayname only -->
+
+		<c:if test="${flashMessage != null }">
+			<div class="row">
+				<div class="col-sm-12 text-center">
+					<p class="text-success">
+						<c:out value="${ flashMessage }" />
+					</p>
+				</div>
+			</div>
+		</c:if>
 
 		<form action="/login" method="POST">
 			<input type="hidden" name="${_csrf.parameterName}"

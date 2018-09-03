@@ -96,7 +96,7 @@ public class RollEvent {
 	
 	public void report() {
 		System.out.println("RollEvent "+id+" reports:");
-		System.out.println("User: "+user);
+		System.out.println("User: "+user.getUsername()+"#"+user.getId().toString());
 		System.out.println("Datetime: "+createdAt.toString());
 		System.out.println("Raw results: "+rawResults.toString());
 		System.out.println("Final results: "+finalResults.toString());

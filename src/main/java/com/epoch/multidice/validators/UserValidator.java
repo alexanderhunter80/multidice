@@ -27,7 +27,7 @@ public class UserValidator implements Validator {
 		User user = (User) target;
 
 		if (!user.getPassConfirm().equals(user.getPassword())) {
-			errors.rejectValue("passwordConfirmation", "Match");
+			errors.rejectValue("passConfirm", "Match");
 		}
 		
 		if (users.findByEmail(user.getEmail()) != null) {

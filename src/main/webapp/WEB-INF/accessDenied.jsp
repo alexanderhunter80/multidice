@@ -25,7 +25,8 @@
 		
 		<div class="row">
 			<div class="col-sm-12 text-center">
-				<h1>Access denied.</h1>
+				<h1 class="text-danger" style="margin-top: 10%;">Access denied.</h1>
+				<p>You do not have the proper permissions to access this page.</p>
 			</div>
 		</div>
 		
