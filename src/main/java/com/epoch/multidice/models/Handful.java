@@ -236,15 +236,38 @@ public class Handful {
 		// alter dice:  maximize/max, minimize/min
 		
 		if(mods.containsKey("maximize") || mods.containsKey("max")) {
-			// maximize
 			notImplemented("maximize");
 		}
 		if(mods.containsKey("minimize") || mods.containsKey("min")) {
-			// minimize
 			notImplemented("minimize");
 		}
 		
 		// keep&discard dice:  keepHighest, keepLowest, keepAbove, keepBelow, discardHighest, discardLowest
+		
+		if(mods.containsKey("keepHighest")) {
+			notImplemented("keepHighest");
+		}
+		if(mods.containsKey("keepLowest")) {
+			notImplemented("keepLowest");
+		}
+		if(mods.containsKey("keepAbove")) {
+			notImplemented("keepAbove");
+		}
+		if(mods.containsKey("keepBelow")) {
+			notImplemented("keepBelow");
+		}
+		if(mods.containsKey("discardHighest")) {
+			notImplemented("discardHighest");
+		}
+		if(mods.containsKey("discardLowest")) {
+			notImplemented("discardLowest");
+		}
+		if(mods.containsKey("discardAbove")) {
+			notImplemented("discardAbove");
+		}
+		if(mods.containsKey("discardBelow")) {
+			notImplemented("discardBelow");
+		}
 		
 		// dice math:  sum, count (3 versions), hits, glitches, and eventually sets
 		

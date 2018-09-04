@@ -23,6 +23,8 @@
 		keepBelow(n) discards all results that are not <= n
 		discardHighest(n) discards the highest n results
 		discardLowest(n) discards the lowest n results
+		discardAbove(n)
+		discardBelow(n)
 	- dice math
 		sum() returns the sum of all dice in the handful.  If no other dice math is explicitly called, sum() is the default operation
 		count() returns the quantity of undiscarded results remaining
