@@ -53,6 +53,7 @@ public class DiceRoller {
 	public RollEvent roll() {
 		this.handfuls = parseToHandfuls(event.getInputString());
 		ArrayList<ArrayList<Integer>> rawResults = new ArrayList<ArrayList<Integer>>();
+		ArrayList<ArrayList<Integer>> finalResults = new ArrayList<ArrayList<Integer>>();
 		// ArrayList<String> finalResults = new ArrayList<String>();
 		// iterate through handfuls, calling each one's rollDice()
 		for(Handful h : handfuls) {
@@ -64,21 +65,27 @@ public class DiceRoller {
 		int reported = 0;
 		for(Handful h : handfuls) {
 			rawResults.add(h.getRawResults());
+			finalResults.add(h.getFinalResults());
 			reported += h.getReported();
 		}
 		
-		// build ArrayList to define event's rawResults
+		// build ArrayList to define event's rawResults and finalResults
 		ArrayList<String> rawToSet = new ArrayList<String>();
+		ArrayList<String> finalToSet = new ArrayList<String>();
 		for(ArrayList<Integer> l : rawResults) {
 			rawToSet.add(l.toString());
 		}
+		for(ArrayList<Integer> l: finalResults) {
+			finalToSet.add(l.toString());
+		}
 		event.setRawResults(rawToSet);
+		event.setFinalResults(finalToSet);
 		
 		// set finalResults to an ArrayList containing only the reported sum
 		// this is mostly a placeholder for later, more complicated reporting, not just sum-all-dice
-		ArrayList<String> finalToSet = new ArrayList<String>();
-		finalToSet.add(Integer.toString(reported));
-		event.setFinalResults(finalToSet);
+		ArrayList<String> outputToSet = new ArrayList<String>();
+		outputToSet.add(Integer.toString(reported));
+		event.setOutput(outputToSet);
 		return event;
 	}
 	

@@ -28,6 +28,7 @@ public class RollEvent {
     
     private ArrayList<String> rawResults;
     private ArrayList<String> finalResults;
+    private ArrayList<String> output;
     
     // many-to-one with User
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -83,6 +84,14 @@ public class RollEvent {
 		this.finalResults = finalResults;
 	}
 
+	public ArrayList<String> getOutput() {
+		return output;
+	}
+
+	public void setOutput(ArrayList<String> output) {
+		this.output = output;
+	}
+
 	public Date getCreatedAt() {
 		return createdAt;
 	}
@@ -96,7 +105,11 @@ public class RollEvent {
 	
 	public void report() {
 		System.out.println("RollEvent "+id+" reports:");
-		System.out.println("User: "+user.getUsername()+"#"+user.getId().toString());
+		try {
+			System.out.println("User: "+user.getUsername()+"#"+user.getId().toString());
+		} catch (NullPointerException e) {
+			System.out.println("User: null");
+		}
 		System.out.println("Datetime: "+createdAt.toString());
 		System.out.println("Raw results: "+rawResults.toString());
 		System.out.println("Final results: "+finalResults.toString());

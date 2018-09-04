@@ -1,0 +1,39 @@
+>>  accept input
+
+>>  generate DiceRoller and RollEvent
+
+>>  generate Handfuls
+
+>>  roll Handful
+
+>>  modifiers:
+	- add dice
+		explode(n) rolls an additional die for each original result >= n
+		explodeRange(lo,hi)
+		recursiveExplode(n) / rexplode(n) explodes as above, and explodes again if the new die is >= n
+		recursiveExplodeRange(lo,hi)
+	- alter dice
+		maximize(n) / max(n) sets the lowest n dice to their highest possible value
+		minimize(n) / min(n) sets the highest n dice to their lowest possible value
+		(( WHICH ONE HAPPENS FIRST?  LEXICAL ORDER?  ALWAYS SAME? ))
+	- keep/discard dice
+		keepHighest(n) / highest(n) discards all but the highest n results
+		keepLowest(n) / lowest(n) discards all but the lowest n results
+		keepAbove(n) discards all results that are not >= n
+		keepBelow(n) discards all results that are not <= n
+		discardHighest(n) discards the highest n results
+		discardLowest(n) discards the lowest n results
+	- dice math
+		sum() returns the sum of all dice in the handful.  If no other dice math is explicitly called, sum() is the default operation
+		count() returns the quantity of undiscarded results remaining
+		count(n) returns the quantity of results exactly matching n
+		count(lo,hi) returns the quantity of results in the range from lo to hi, inclusive
+		hits(n) returns the count of results >= n
+		glitches(n) returns the count of results <= n
+		sets() ... does complicated stuff, leave this for last (see One Roll Engine)
+		
+
+	- special command sets
+		shadowrun() applies .hits(5).glitches(1)
+		shadowrunPreEdge() applies .recursiveExplode(6).hits(5).glitches(1)
+		shadowrunPostEdge() applies .explode(6).hits(5).glitches(1)

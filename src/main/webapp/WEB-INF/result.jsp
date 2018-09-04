@@ -61,11 +61,13 @@
 						<br />
 						<p class="card-text">
 							Input:
-							<c:out value="${ roll.inputString }" />
+							<c:out value="${ showEvent.inputString }" />
 							<br />Raw results:
 							<c:out value="${ showEvent.rawResults }" />
 							<br /> Final results:
 							<c:out value="${ showEvent.finalResults }" />
+							<br /> Output:
+							<c:out value="${ showEvent.output }" />
 						</p>
 					</div>
 				</div>
